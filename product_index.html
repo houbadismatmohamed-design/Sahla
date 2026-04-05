@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Product_index</title>
+<title>Entreprise_index</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#ff9800">
@@ -20,83 +20,61 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
+    color: #000;
 }
 
-/* RIGHT ACTIONS */
-.actions {
-    display: flex;
-    gap: 5px;
-}
-
-/* BUTTONS */
-.btn {
-    padding: 6px 8px;
+/* Wilaya Button */
+.wilaya-btn {
+    padding: 8px 12px;
     border: none;
     background: #ff9800;
-    color: white;
-    border-radius: 6px;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-/* SEARCH ICON */
-.search-icon {
-    font-size: 18px;
-    cursor: pointer;
-}
-
-/* SEARCH INPUT */
-.search-box {
-    display: none;
-    padding: 10px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 10px;
+    color: #fff;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    cursor: pointer;
 }
 
-/* PRODUCT LIST */
-.list {
-    padding: 10px;
+/* Wilaya Select */
+.wilaya-select {
+    display: none;
+    margin-left: 10px;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 15px;
     padding-bottom: 80px;
 }
 
-.item {
+/* CATEGORY CARD */
+.card {
+    height: 90px;
+    border-radius: 12px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-/* IMAGE */
-.img {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    background: #eee;
-}
-
-/* TEXT */
-.text {
-    flex: 1;
-}
-
-.title {
+    color: #fff;
     font-weight: bold;
+    text-align: center;
+    cursor: pointer; /* Added for visual feedback */
 }
 
-.subtitle {
-    font-size: 12px;
-    color: gray;
-}
+/* COLORS */
+.c1 { background: #ff9800; }
+.c2 { background: #000; }
+.c3 { background: #f57c00; }
+.c4 { background: #ffb74d; color:#000;}
+.c5 { background: #212121; }
+.c6 { background: #ffa726; color:#000;}
+.c7 { background: #fb8c00; }
+.c8 { background: #424242; }
+.c9 { background: #ffcc80; color:#000; }
 
 /* FOOTER */
 .footer {
@@ -111,130 +89,163 @@ body {
     align-items: center;
 }
 
+/* FOOTER BUTTON */
 .nav-btn {
     text-align: center;
     font-size: 14px;
     cursor: pointer;
+    color: #000;
+}
+
+/* RESPONSIVE */
+@media (max-width: 400px) {
+    .card {
+        height: 80px;
+        font-size: 12px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-    <span>Choisire votre produit</span>
+    <span>Choisire votre crémerie</span>
 
-    <div class="actions">
-        <button class="btn" onclick="filter()">Filtrez</button>
-        <button class="btn" onclick="sort()">Triez</button>
-        <span class="search-icon" onclick="toggleSearch()">🔍</span>
+    <div>
+        <button class="wilaya-btn" onclick="toggleWilaya()">Wilaya</button>
+
+        <select id="wilayaSelect" class="wilaya-select" onchange="selectWilaya()">
+            <option value="">All Wilayas</option>
+
+            <option>01 - Adrar</option>
+            <option>02 - Chlef</option>
+            <option>03 - Laghouat</option>
+            <option>04 - Oum El Bouaghi</option>
+            <option>05 - Batna</option>
+            <option>06 - Béjaïa</option>
+            <option>07 - Biskra</option>
+            <option>08 - Béchar</option>
+            <option>09 - Blida</option>
+            <option>10 - Bouira</option>
+            <option>11 - Tamanrasset</option>
+            <option>12 - Tébessa</option>
+            <option>13 - Tlemcen</option>
+            <option>14 - Tiaret</option>
+            <option>15 - Tizi Ouzou</option>
+            <option>16 - Alger</option>
+            <option>17 - Djelfa</option>
+            <option>18 - Jijel</option>
+            <option>19 - Sétif</option>
+            <option>20 - Saïda</option>
+            <option>21 - Skikda</option>
+            <option>22 - Sidi Bel Abbès</option>
+            <option>23 - Annaba</option>
+            <option>24 - Guelma</option>
+            <option>25 - Constantine</option>
+            <option>26 - Médéa</option>
+            <option>27 - Mostaganem</option>
+            <option>28 - M'Sila</option>
+            <option>29 - Mascara</option>
+            <option>30 - Ouargla</option>
+            <option>31 - Oran</option>
+            <option>32 - El Bayadh</option>
+            <option>33 - Illizi</option>
+            <option>34 - Bordj Bou Arréridj</option>
+            <option>35 - Boumerdès</option>
+            <option>36 - El Tarf</option>
+            <option>37 - Tindouf</option>
+            <option>38 - Tissemsilt</option>
+            <option>39 - El Oued</option>
+            <option>40 - Khenchela</option>
+            <option>41 - Souk Ahras</option>
+            <option>42 - Tipaza</option>
+            <option>43 - Mila</option>
+            <option>44 - Aïn Defla</option>
+            <option>45 - Naâma</option>
+            <option>46 - Aïn Témouchent</option>
+            <option>47 - Ghardaïa</option>
+            <option>48 - Relizane</option>
+            <option>49 - Timimoun</option>
+            <option>50 - Bordj Badji Mokhtar</option>
+            <option>51 - Ouled Djellal</option>
+            <option>52 - Béni Abbès</option>
+            <option>53 - In Salah</option>
+            <option>54 - In Guezzam</option>
+            <option>55 - Touggourt</option>
+            <option>56 - Djanet</option>
+            <option>57 - El M'Ghair</option>
+            <option>58 - El Meniaa</option>
+        </select>
     </div>
 </div>
 
-<!-- SEARCH -->
-<div class="search-box" id="searchBox">
-    <input type="text" id="searchInput" placeholder="Search product..." onkeyup="searchProduct()">
-</div>
+<div class="grid">
 
-<!-- PRODUCT LIST -->
-<div class="list" id="productList">
+    <div class="card c1" onclick="window.location.href='product_index.html'">Crémerie 1</div>
+    <div class="card c2" onclick="window.location.href='product_index.html'">Crémerie 2</div>
+    <div class="card c3" onclick="window.location.href='product_index.html'">Crémerie 3</div>
 
-    <div class="item" data-name="sucre">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Sucre</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
+    <div class="card c4" onclick="window.location.href='product_index.html'">Crémerie 4</div>
+    <div class="card c5" onclick="window.location.href='product_index.html'">Crémerie 5</div>
+    <div class="card c6" onclick="window.location.href='product_index.html'">Crémerie 6</div>
 
-    <div class="item" data-name="sel">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Sel</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="lait">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Lait</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="yaourt">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Yaourt</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="fromage">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Fromage</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
+    <div class="card c7" onclick="window.location.href='product_index.html'">Crémerie 7</div>
+    <div class="card c8" onclick="window.location.href='product_index.html'">Crémerie 8</div>
+    <div class="card c9" onclick="window.location.href='product_index.html'">Crémerie 9</div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
+
     <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
     <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
     <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
+
 </div>
 
 <script>
-
-/* TOGGLE SEARCH */
-function toggleSearch() {
-    const box = document.getElementById("searchBox");
-    box.style.display = box.style.display === "block" ? "none" : "block";
+function toggleWilaya() {
+    const select = document.getElementById("wilayaSelect");
+    select.style.display = select.style.display === "block" ? "none" : "block";
 }
 
-/* LIVE SEARCH (LETTER BY LETTER) */
-function searchProduct() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const items = document.querySelectorAll(".item");
-
-    items.forEach(item => {
-        const name = item.getAttribute("data-name");
-
-        if (name.startsWith(input)) {
-            item.style.display = "flex";
-        } else {
-            item.style.display = "none";
-        }
-    });
+function selectWilaya() {
+    const value = document.getElementById("wilayaSelect").value;
+    localStorage.setItem("wilaya", value);
+    console.log("Wilaya saved:", value);
 }
 
-/* FILTER */
-function filter() {
-    alert("Filter not implemented yet");
-}
-
-/* SORT */
-function sort() {
-    alert("Sort not implemented yet");
+function chooseWilaya() {
+    const wilaya = prompt("Enter Wilaya (or leave empty for all):");
+    if (wilaya) {
+        alert("Selected: " + wilaya);
+    } else {
+        alert("All Wilayas");
+    }
 }
 
 function goHome() {
-    window.location.href = "Category-index.html";
+    window.location.href = "category index.html";
 }
 
 function openCart() {
-    alert("Orders waiting confirmation");
+    // ✅ ADDED RELATION
+    window.location.href = "cart_index.html";
 }
 
 function logout() {
     localStorage.removeItem("token");
     window.location.href = "index.html";
 }
+
+window.onload = function() {
+    const saved = localStorage.getItem("wilaya");
+
+    if (saved !== null) {
+        document.getElementById("wilayaSelect").value = saved;
+    }
+};
 </script>
 
 </body>
