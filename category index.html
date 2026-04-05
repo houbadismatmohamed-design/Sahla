@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Categories</title>
+<title>Entreprise_index</title>
 
-<!-- ✅ MOBILE + PWA -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#ff9800">
 
@@ -36,7 +35,7 @@ body {
     cursor: pointer;
 }
 
-/* ✅ NEW: Wilaya Select */
+/* Wilaya Select */
 .wilaya-select {
     display: none;
     margin-left: 10px;
@@ -63,6 +62,7 @@ body {
     color: #fff;
     font-weight: bold;
     text-align: center;
+    cursor: pointer; /* ✅ Added to show interactivity */
 }
 
 /* COLORS */
@@ -109,16 +109,14 @@ body {
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-    <span>Category</span>
+    <span>Choisire votre crémerie</span>
 
     <div>
         <button class="wilaya-btn" onclick="toggleWilaya()">Wilaya</button>
 
         <select id="wilayaSelect" class="wilaya-select" onchange="selectWilaya()">
             <option value="">All Wilayas</option>
-
             <option>01 - Adrar</option>
             <option>02 - Chlef</option>
             <option>03 - Laghouat</option>
@@ -181,45 +179,41 @@ body {
     </div>
 </div>
 
-<!-- GRID -->
 <div class="grid">
+    <div class="card c1" onclick="goToProduct('Crémerie 1')">Crémerie 1</div>
+    <div class="card c2" onclick="goToProduct('Crémerie 2')">Crémerie 2</div>
+    <div class="card c3" onclick="goToProduct('Crémerie 3')">Crémerie 3</div>
 
-    <div class="card c1">Drinks</div>
-    <div class="card c2">Furniture</div>
-    <div class="card c3">Baby & Kids</div>
+    <div class="card c4" onclick="goToProduct('Crémerie 4')">Crémerie 4</div>
+    <div class="card c5" onclick="goToProduct('Crémerie 5')">Crémerie 5</div>
+    <div class="card c6" onclick="goToProduct('Crémerie 6')">Crémerie 6</div>
 
-    <div class="card c4">Women</div>
-    <div class="card c5">Men</div>
-    <div class="card c6">Retail</div>
-
-    <div class="card c7">Electronic</div>
-    <div class="card c8">Automobile</div>
-    <div class="card c9">Lifestyle</div>
-
+    <div class="card c7" onclick="goToProduct('Crémerie 7')">Crémerie 7</div>
+    <div class="card c8" onclick="goToProduct('Crémerie 8')">Crémerie 8</div>
+    <div class="card c9" onclick="goToProduct('Crémerie 9')">Crémerie 9</div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-
     <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
     <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
     <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
-
 </div>
 
 <script>
+/* ✅ NEW: REDIRECT TO PRODUCT PAGE */
+function goToProduct(name) {
+    localStorage.setItem("selectedEntreprise", name);
+    window.location.href = "product_index.html";
+}
+
 function toggleWilaya() {
     const select = document.getElementById("wilayaSelect");
     select.style.display = select.style.display === "block" ? "none" : "block";
 }
 
-/* ✅ UPDATED: NO ALERTS, ONLY SAVE */
 function selectWilaya() {
     const value = document.getElementById("wilayaSelect").value;
-
-    // Save permanently until user changes it
     localStorage.setItem("wilaya", value);
-
     console.log("Wilaya saved:", value);
 }
 
@@ -233,11 +227,13 @@ function chooseWilaya() {
 }
 
 function goHome() {
-    location.reload();
+    // ✅ Redirect to the correct category home page
+    window.location.href = "category index.html";
 }
 
 function openCart() {
-    alert("Orders waiting confirmation (not implemented yet)");
+    // ✅ Redirect to the cart page
+    window.location.href = "cart_index.html";
 }
 
 function logout() {
@@ -245,10 +241,13 @@ function logout() {
     window.location.href = "index.html";
 }
 
-/* ✅ LOAD SAVED WILAYA (NO ALERT) */
 window.onload = function() {
-    const saved = localStorage.getItem("wilaya");
+    // ✅ Security check: Redirect to login if not logged in
+    if (!localStorage.getItem("token")) {
+        window.location.href = "index.html";
+    }
 
+    const saved = localStorage.getItem("wilaya");
     if (saved !== null) {
         document.getElementById("wilayaSelect").value = saved;
     }
