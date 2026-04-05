@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cart_index</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff9800">
+
+<style>
+/* org.theme */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+}
+
+/* HEADER */
+.header {
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* CART LIST */
+.cart {
+    padding: 10px;
+    padding-bottom: 120px;
+}
+
+/* ITEM */
+.item {
+    display: flex;
+    gap: 10px;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    align-items: center;
+}
+
+/* IMAGE */
+.img {
+    width: 70px;
+    height: 70px;
+    background: #eee;
+    border-radius: 10px;
+}
+
+/* INFO */
+.info {
+    flex: 1;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: gray;
+}
+
+/* PRICE + QTY */
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.price {
+    color: #000;
+    font-weight: bold;
+}
+
+/* QTY BUTTONS */
+.qty {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.qty button {
+    background: #ff9800;
+    border: none;
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.qty span {
+    width: 20px;
+    text-align: center;
+}
+
+/* REMOVE */
+.remove {
+    color: gray;
+    cursor: pointer;
+}
+
+/* SUMMARY */
+.summary {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    padding: 15px;
+}
+
+/* ROW */
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+/* TOTAL */
+.total {
+    font-weight: bold;
+}
+
+/* CHECKOUT */
+.checkout {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #ff9800;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* FOOTER NAV */
+.footer {
+    position: fixed;
+    bottom: 80px;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-btn {
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">My Cart</div>
+
+<!-- CART ITEMS -->
+<div class="cart">
+
+    <div class="item">
+        <div class="img"></div>
+
+        <div class="info">
+            <div class="title">Produit 1</div>
+            <div class="subtitle">Volume: 35 ml</div>
+
+            <div class="price-row">
+                <div class="price">1000 DZD</div>
+
+                <div class="qty">
+                    <button onclick="changeQty(this,-1)">-</button>
+                    <span>1</span>
+                    <button onclick="changeQty(this,1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="remove" onclick="removeItem(this)">✕</div>
+    </div>
+
+    <div class="item">
+        <div class="img"></div>
+
+        <div class="info">
+            <div class="title">Produit 2</div>
+            <div class="subtitle">Volume: 35 ml</div>
+
+            <div class="price-row">
+                <div class="price">2000 DZD</div>
+
+                <div class="qty">
+                    <button onclick="changeQty(this,-1)">-</button>
+                    <span>1</span>
+                    <button onclick="changeQty(this,1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="remove" onclick="removeItem(this)">✕</div>
+    </div>
+
+</div>
+
+<!-- FOOTER NAV -->
+<div class="footer">
+    <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
+    <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
+    <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+    <div class="row">
+        <span>Product</span>
+        <span id="count">2 items</span>
+    </div>
+
+    <div class="row">
+        <span>Subtotal</span>
+        <span id="subtotal">3000 DZD</span>
+    </div>
+
+    <div class="row total">
+        <span>TOTAL</span>
+        <span id="total">3000 DZD</span>
+    </div>
+
+    <button class="checkout">Checkout</button>
+</div>
+
+<script>
+
+/* CHANGE QUANTITY */
+function changeQty(btn, change) {
+    const span = btn.parentElement.querySelector("span");
+    let value = parseInt(span.innerText);
+
+    value += change;
+    if (value < 1) value = 1;
+
+    span.innerText = value;
+    updateTotal();
+}
+
+/* REMOVE ITEM */
+function removeItem(el) {
+    el.parentElement.remove();
+    updateTotal();
+}
+
+/* UPDATE TOTAL */
+function updateTotal() {
+    const items = document.querySelectorAll(".item");
+    let total = 0;
+    let count = 0;
+
+    items.forEach(item => {
+        const priceText = item.querySelector(".price").innerText;
+        const price = parseInt(priceText);
+        const qty = parseInt(item.querySelector("span").innerText);
+
+        total += price * qty;
+        count += qty;
+    });
+
+    document.getElementById("subtotal").innerText = total + " DZD";
+    document.getElementById("total").innerText = total + " DZD";
+    document.getElementById("count").innerText = count + " items";
+}
+
+/* NAVIGATION */
+function goHome() {
+    window.location.href = "Category-index.html";
+}
+
+function openCart() {
+    location.reload();
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

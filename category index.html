@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Categories</title>
+
+<!-- ✅ MOBILE + PWA -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff9800">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Wilaya Button */
+.wilaya-btn {
+    padding: 8px 12px;
+    border: none;
+    background: #ff9800;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ✅ NEW: Wilaya Select */
+.wilaya-select {
+    display: none;
+    margin-left: 10px;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 15px;
+    padding-bottom: 80px;
+}
+
+/* CATEGORY CARD */
+.card {
+    height: 90px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* COLORS */
+.c1 { background: #ff9800; }
+.c2 { background: #000; }
+.c3 { background: #f57c00; }
+.c4 { background: #ffb74d; color:#000;}
+.c5 { background: #212121; }
+.c6 { background: #ffa726; color:#000;}
+.c7 { background: #fb8c00; }
+.c8 { background: #424242; }
+.c9 { background: #ffcc80; color:#000; }
+
+/* FOOTER */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* FOOTER BUTTON */
+.nav-btn {
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    color: #000;
+}
+
+/* RESPONSIVE */
+@media (max-width: 400px) {
+    .card {
+        height: 80px;
+        font-size: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <span>Category</span>
+
+    <div>
+        <button class="wilaya-btn" onclick="toggleWilaya()">Wilaya</button>
+
+        <select id="wilayaSelect" class="wilaya-select" onchange="selectWilaya()">
+            <option value="">All Wilayas</option>
+
+            <option>01 - Adrar</option>
+            <option>02 - Chlef</option>
+            <option>03 - Laghouat</option>
+            <option>04 - Oum El Bouaghi</option>
+            <option>05 - Batna</option>
+            <option>06 - Béjaïa</option>
+            <option>07 - Biskra</option>
+            <option>08 - Béchar</option>
+            <option>09 - Blida</option>
+            <option>10 - Bouira</option>
+            <option>11 - Tamanrasset</option>
+            <option>12 - Tébessa</option>
+            <option>13 - Tlemcen</option>
+            <option>14 - Tiaret</option>
+            <option>15 - Tizi Ouzou</option>
+            <option>16 - Alger</option>
+            <option>17 - Djelfa</option>
+            <option>18 - Jijel</option>
+            <option>19 - Sétif</option>
+            <option>20 - Saïda</option>
+            <option>21 - Skikda</option>
+            <option>22 - Sidi Bel Abbès</option>
+            <option>23 - Annaba</option>
+            <option>24 - Guelma</option>
+            <option>25 - Constantine</option>
+            <option>26 - Médéa</option>
+            <option>27 - Mostaganem</option>
+            <option>28 - M'Sila</option>
+            <option>29 - Mascara</option>
+            <option>30 - Ouargla</option>
+            <option>31 - Oran</option>
+            <option>32 - El Bayadh</option>
+            <option>33 - Illizi</option>
+            <option>34 - Bordj Bou Arréridj</option>
+            <option>35 - Boumerdès</option>
+            <option>36 - El Tarf</option>
+            <option>37 - Tindouf</option>
+            <option>38 - Tissemsilt</option>
+            <option>39 - El Oued</option>
+            <option>40 - Khenchela</option>
+            <option>41 - Souk Ahras</option>
+            <option>42 - Tipaza</option>
+            <option>43 - Mila</option>
+            <option>44 - Aïn Defla</option>
+            <option>45 - Naâma</option>
+            <option>46 - Aïn Témouchent</option>
+            <option>47 - Ghardaïa</option>
+            <option>48 - Relizane</option>
+            <option>49 - Timimoun</option>
+            <option>50 - Bordj Badji Mokhtar</option>
+            <option>51 - Ouled Djellal</option>
+            <option>52 - Béni Abbès</option>
+            <option>53 - In Salah</option>
+            <option>54 - In Guezzam</option>
+            <option>55 - Touggourt</option>
+            <option>56 - Djanet</option>
+            <option>57 - El M'Ghair</option>
+            <option>58 - El Meniaa</option>
+        </select>
+    </div>
+</div>
+
+<!-- GRID -->
+<div class="grid">
+
+    <div class="card c1">Drinks</div>
+    <div class="card c2">Furniture</div>
+    <div class="card c3">Baby & Kids</div>
+
+    <div class="card c4">Women</div>
+    <div class="card c5">Men</div>
+    <div class="card c6">Retail</div>
+
+    <div class="card c7">Electronic</div>
+    <div class="card c8">Automobile</div>
+    <div class="card c9">Lifestyle</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+
+    <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
+    <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
+    <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
+
+</div>
+
+<script>
+function toggleWilaya() {
+    const select = document.getElementById("wilayaSelect");
+    select.style.display = select.style.display === "block" ? "none" : "block";
+}
+
+/* ✅ UPDATED: NO ALERTS, ONLY SAVE */
+function selectWilaya() {
+    const value = document.getElementById("wilayaSelect").value;
+
+    // Save permanently until user changes it
+    localStorage.setItem("wilaya", value);
+
+    console.log("Wilaya saved:", value);
+}
+
+function chooseWilaya() {
+    const wilaya = prompt("Enter Wilaya (or leave empty for all):");
+    if (wilaya) {
+        alert("Selected: " + wilaya);
+    } else {
+        alert("All Wilayas");
+    }
+}
+
+function goHome() {
+    location.reload();
+}
+
+function openCart() {
+    alert("Orders waiting confirmation (not implemented yet)");
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+}
+
+/* ✅ LOAD SAVED WILAYA (NO ALERT) */
+window.onload = function() {
+    const saved = localStorage.getItem("wilaya");
+
+    if (saved !== null) {
+        document.getElementById("wilayaSelect").value = saved;
+    }
+};
+</script>
+
+</body>
+</html>

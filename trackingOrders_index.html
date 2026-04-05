@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tracking Orders</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff9800">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+}
+
+/* HEADER */
+.header {
+    padding: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* MAP */
+.map {
+    height: 300px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+}
+
+/* STATUS BOX */
+.status-box {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
+
+/* STATUS TITLE */
+.status-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* INFO */
+.info {
+    margin-top: 5px;
+    color: gray;
+}
+
+/* CALL BUTTON */
+.call {
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+/* ETA */
+.eta {
+    background: #000;
+    color: #fff;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* FOOTER */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-btn {
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <span>Order Tracking</span>
+    <span id="statusText">Pending</span>
+</div>
+
+<!-- MAP -->
+<div class="map">
+    📍 Map Tracking (to connect later)
+</div>
+
+<!-- STATUS -->
+<div class="status-box" style="position:relative">
+
+    <div class="status-title" id="title">Order Pending</div>
+
+    <div class="info" id="desc">
+        Your order is being prepared.
+    </div>
+
+    <div class="info" id="contact">
+        Shop Manager: 0555 00 00 00
+    </div>
+
+    <div class="eta" id="eta">ETA: --</div>
+
+    <button class="call" onclick="callNumber()">📞</button>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
+    <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
+    <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
+</div>
+
+<script>
+
+/* STATES:
+0 = Pending
+1 = With Delivery
+2 = Near (Arriving)
+*/
+
+let state = 0;
+
+/* SIMULATION CHANGE (for testing) */
+setInterval(() => {
+    state++;
+    if (state > 2) state = 2;
+    updateStatus();
+}, 8000);
+
+/* UPDATE STATUS */
+function updateStatus() {
+
+    if (state === 0) {
+        document.getElementById("title").innerText = "Order Pending";
+        document.getElementById("desc").innerText = "Your order is being prepared.";
+        document.getElementById("contact").innerText = "Shop Manager: 0555 00 00 00";
+        document.getElementById("statusText").innerText = "Pending";
+        document.getElementById("eta").innerText = "ETA: --";
+    }
+
+    if (state === 1) {
+        document.getElementById("title").innerText = "With Delivery";
+        document.getElementById("desc").innerText = "Driver picked up your order.";
+        document.getElementById("contact").innerText = "Driver: 0666 00 00 00";
+        document.getElementById("statusText").innerText = "On the way";
+        document.getElementById("eta").innerText = "ETA: 15 min";
+    }
+
+    if (state === 2) {
+        document.getElementById("title").innerText = "Order is Here - Get Out";
+        document.getElementById("desc").innerText = "Driver is near your location.";
+        document.getElementById("contact").innerText = "Driver: 0666 00 00 00";
+        document.getElementById("statusText").innerText = "Arriving";
+        document.getElementById("eta").innerText = "ETA: 2 min";
+    }
+}
+
+/* CALL */
+function callNumber() {
+    const text = document.getElementById("contact").innerText;
+    const number = text.replace(/[^0-9]/g, "");
+    window.location.href = "tel:" + number;
+}
+
+/* NAV */
+function goHome() {
+    window.location.href = "Category-index.html";
+}
+
+function openCart() {
+    window.location.href = "cart_index.html";
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+}
+
+/* INIT */
+updateStatus();
+
+</script>
+
+</body>
+</html>

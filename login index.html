@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Market Auth</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        width: 320px;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #000;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #ff9800;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #e68900;
+    }
+
+    .switch {
+        text-align: center;
+        margin-top: 10px;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .remember {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LOGIN -->
+    <div id="login">
+        <h2>Login</h2>
+
+        <input type="text" id="loginPhone" placeholder="Phone number">
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <div class="remember">
+            <input type="checkbox" id="remember"> Remember me
+        </div>
+
+        <button onclick="login()">Login</button>
+
+        <div class="switch" onclick="showSignup()">Create account</div>
+    </div>
+
+    <!-- SIGN UP -->
+    <div id="signup" class="hidden">
+        <h2>Sign Up</h2>
+
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="text" id="phone" placeholder="Phone number">
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="signup()">Sign Up</button>
+
+        <div class="switch" onclick="showLogin()">Already have account?</div>
+    </div>
+
+</div>
+
+<script>
+function showSignup() {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("signup").classList.remove("hidden");
+}
+
+function showLogin() {
+    document.getElementById("signup").classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
+}
+
+// Save users in localStorage (simple demo)
+function signup() {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
+
+    if (!name || !phone || !password) {
+        alert("Fill all fields");
+        return;
+    }
+
+    const user = { name, phone, password };
+    localStorage.setItem(phone, JSON.stringify(user));
+
+    alert("Account created!");
+    showLogin();
+}
+
+function login() {
+    const phone = document.getElementById("loginPhone").value;
+    const password = document.getElementById("loginPassword").value;
+    const remember = document.getElementById("remember").checked;
+
+    const user = JSON.parse(localStorage.getItem(phone));
+
+    if (!user || user.password !== password) {
+        alert("Invalid login");
+        return;
+    }
+
+    if (remember) {
+        localStorage.setItem("savedUser", phone);
+    }
+
+    alert("Welcome " + user.name);
+}
+
+// Auto login if saved
+window.onload = function() {
+    const saved = localStorage.getItem("savedUser");
+    if (saved) {
+        document.getElementById("loginPhone").value = saved;
+    }
+};
+</script>
+
+</body>
+</html>
