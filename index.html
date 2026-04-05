@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>E-Market Auth</title>
+<title>E-Market Auth - Secure Location</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body {
         margin: 0;
@@ -26,12 +27,29 @@
         color: #000;
     }
 
+    /* GPS Status Indicator */
+    .gps-status {
+        font-size: 12px;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 8px;
+        border-radius: 5px;
+        background: #fdf2f2;
+        color: #d32f2f;
+    }
+
+    .gps-active {
+        background: #f1f8e9;
+        color: #388e3c;
+    }
+
     input {
         width: 100%;
         padding: 12px;
         margin: 10px 0;
         border: 1px solid #ddd;
         border-radius: 8px;
+        box-sizing: border-box;
     }
 
     button {
@@ -45,8 +63,9 @@
         cursor: pointer;
     }
 
-    button:hover {
-        background: #e68900;
+    button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
     }
 
     .switch {
@@ -56,54 +75,86 @@
         cursor: pointer;
     }
 
-    .hidden {
-        display: none;
-    }
+    .hidden { display: none; }
 
     .remember {
         display: flex;
         align-items: center;
         font-size: 14px;
+        margin-bottom: 10px;
     }
-
 </style>
 </head>
 <body>
 
 <div class="container">
+    <div id="gpsIndicator" class="gps-status">
+        📍 Please allow GPS to continue
+    </div>
 
-    <!-- LOGIN -->
     <div id="login">
         <h2>Login</h2>
-
         <input type="text" id="loginPhone" placeholder="Phone number">
         <input type="password" id="loginPassword" placeholder="Password">
-
         <div class="remember">
             <input type="checkbox" id="remember"> Remember me
         </div>
-
-        <button onclick="login()">Login</button>
-
+        <button id="loginBtn" onclick="login()" disabled>Login</button>
         <div class="switch" onclick="showSignup()">Create account</div>
     </div>
 
-    <!-- SIGN UP -->
     <div id="signup" class="hidden">
         <h2>Sign Up</h2>
-
         <input type="text" id="name" placeholder="Full Name">
         <input type="text" id="phone" placeholder="Phone number">
         <input type="password" id="password" placeholder="Password">
-
-        <button onclick="signup()">Sign Up</button>
-
+        <button id="signupBtn" onclick="signup()" disabled>Sign Up</button>
         <div class="switch" onclick="showLogin()">Already have account?</div>
     </div>
-
 </div>
 
 <script>
+let userLocation = null;
+
+/* GPS AUTHORIZATION LOGIC */
+function requestGPS() {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                
+                // Update UI
+                const indicator = document.getElementById("gpsIndicator");
+                indicator.innerText = "✅ GPS Connected";
+                indicator.classList.add("gps-active");
+                
+                // Enable Buttons
+                document.getElementById("loginBtn").disabled = false;
+                document.getElementById("signupBtn").disabled = false;
+            },
+            (error) => {
+                alert("GPS Access Denied. You must allow location to use this app.");
+                console.error(error);
+            }
+        );
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+// Request GPS immediately on load
+window.onload = function() {
+    requestGPS();
+
+    const saved = localStorage.getItem("savedUser");
+    if (saved) {
+        document.getElementById("loginPhone").value = saved;
+    }
+};
+
 function showSignup() {
     document.getElementById("login").classList.add("hidden");
     document.getElementById("signup").classList.remove("hidden");
@@ -114,8 +165,9 @@ function showLogin() {
     document.getElementById("login").classList.remove("hidden");
 }
 
-// Save users in localStorage (simple demo)
 function signup() {
+    if(!userLocation) return alert("GPS Required");
+
     const name = document.getElementById("name").value;
     const phone = document.getElementById("phone").value;
     const password = document.getElementById("password").value;
@@ -125,21 +177,28 @@ function signup() {
         return;
     }
 
-    const user = { name, phone, password };
+    const user = { name, phone, password, location: userLocation };
     localStorage.setItem(phone, JSON.stringify(user));
 
-    alert("Account created!");
+    alert("Account created with location!");
     showLogin();
 }
 
 function login() {
+    if(!userLocation) return alert("GPS Required");
+
     const phone = document.getElementById("loginPhone").value;
     const password = document.getElementById("loginPassword").value;
     const remember = document.getElementById("remember").checked;
 
-    const user = JSON.parse(localStorage.getItem(phone));
+    const userStr = localStorage.getItem(phone);
+    if (!userStr) {
+        alert("Invalid login");
+        return;
+    }
 
-    if (!user || user.password !== password) {
+    const user = JSON.parse(userStr);
+    if (user.password !== password) {
         alert("Invalid login");
         return;
     }
@@ -147,17 +206,11 @@ function login() {
     if (remember) {
         localStorage.setItem("savedUser", phone);
     }
-
-    alert("Welcome " + user.name);
+    
+    // Save session and redirect
+    localStorage.setItem("token", "logged_in");
+    window.location.href = "category_index.html"; 
 }
-
-// Auto login if saved
-window.onload = function() {
-    const saved = localStorage.getItem("savedUser");
-    if (saved) {
-        document.getElementById("loginPhone").value = saved;
-    }
-};
 </script>
 
 </body>
