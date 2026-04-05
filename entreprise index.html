@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Entreprise_index</title>
 
-<!-- ✅ MOBILE + PWA -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#ff9800">
 
@@ -63,6 +62,7 @@ body {
     color: #fff;
     font-weight: bold;
     text-align: center;
+    cursor: pointer; /* Added for visual feedback */
 }
 
 /* COLORS */
@@ -109,7 +109,6 @@ body {
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <span>Choisire votre crémerie</span>
 
@@ -181,24 +180,22 @@ body {
     </div>
 </div>
 
-<!-- GRID -->
 <div class="grid">
 
-    <div class="card c1">Crémerie 1</div>
-    <div class="card c2">Crémerie 2</div>
-    <div class="card c3">Crémerie 3</div>
+    <div class="card c1" onclick="window.location.href='product_index.html'">Crémerie 1</div>
+    <div class="card c2" onclick="window.location.href='product_index.html'">Crémerie 2</div>
+    <div class="card c3" onclick="window.location.href='product_index.html'">Crémerie 3</div>
 
-    <div class="card c4">Crémerie 4</div>
-    <div class="card c5">Crémerie 5</div>
-    <div class="card c6">Crémerie 6</div>
+    <div class="card c4" onclick="window.location.href='product_index.html'">Crémerie 4</div>
+    <div class="card c5" onclick="window.location.href='product_index.html'">Crémerie 5</div>
+    <div class="card c6" onclick="window.location.href='product_index.html'">Crémerie 6</div>
 
-    <div class="card c7">Crémerie 7</div>
-    <div class="card c8">Crémerie 8</div>
-    <div class="card c9">Crémerie 9</div>
+    <div class="card c7" onclick="window.location.href='product_index.html'">Crémerie 7</div>
+    <div class="card c8" onclick="window.location.href='product_index.html'">Crémerie 8</div>
+    <div class="card c9" onclick="window.location.href='product_index.html'">Crémerie 9</div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
 
     <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
@@ -229,11 +226,12 @@ function chooseWilaya() {
 }
 
 function goHome() {
-    window.location.href = "Category-index.html";
+    window.location.href = "category index.html";
 }
 
 function openCart() {
-    alert("Orders waiting confirmation (not implemented yet)");
+    // ✅ ADDED RELATION
+    window.location.href = "cart_index.html";
 }
 
 function logout() {
