@@ -2,254 +2,161 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Entreprise_index</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ff9800">
-
+<title>E-Market Auth</title>
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #fff;
-}
-
-/* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #000;
-}
-
-/* Wilaya Button */
-.wilaya-btn {
-    padding: 8px 12px;
-    border: none;
-    background: #ff9800;
-    color: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-/* Wilaya Select */
-.wilaya-select {
-    display: none;
-    margin-left: 10px;
-    padding: 6px;
-    border-radius: 6px;
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 15px;
-    padding-bottom: 80px;
-}
-
-/* CATEGORY CARD */
-.card {
-    height: 90px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer; /* ✅ Added to show interactivity */
-}
-
-/* COLORS */
-.c1 { background: #ff9800; }
-.c2 { background: #000; }
-.c3 { background: #f57c00; }
-.c4 { background: #ffb74d; color:#000;}
-.c5 { background: #212121; }
-.c6 { background: #ffa726; color:#000;}
-.c7 { background: #fb8c00; }
-.c8 { background: #424242; }
-.c9 { background: #ffcc80; color:#000; }
-
-/* FOOTER */
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-/* FOOTER BUTTON */
-.nav-btn {
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-    color: #000;
-}
-
-/* RESPONSIVE */
-@media (max-width: 400px) {
-    .card {
-        height: 80px;
-        font-size: 12px;
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
     }
-}
+
+    .container {
+        width: 320px;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #000;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #ff9800;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #e68900;
+    }
+
+    .switch {
+        text-align: center;
+        margin-top: 10px;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .remember {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+
 </style>
 </head>
-
 <body>
 
-<div class="header">
-    <span>Choisire votre crémerie</span>
+<div class="container">
 
-    <div>
-        <button class="wilaya-btn" onclick="toggleWilaya()">Wilaya</button>
+    <div id="login">
+        <h2>Login</h2>
 
-        <select id="wilayaSelect" class="wilaya-select" onchange="selectWilaya()">
-            <option value="">All Wilayas</option>
-            <option>01 - Adrar</option>
-            <option>02 - Chlef</option>
-            <option>03 - Laghouat</option>
-            <option>04 - Oum El Bouaghi</option>
-            <option>05 - Batna</option>
-            <option>06 - Béjaïa</option>
-            <option>07 - Biskra</option>
-            <option>08 - Béchar</option>
-            <option>09 - Blida</option>
-            <option>10 - Bouira</option>
-            <option>11 - Tamanrasset</option>
-            <option>12 - Tébessa</option>
-            <option>13 - Tlemcen</option>
-            <option>14 - Tiaret</option>
-            <option>15 - Tizi Ouzou</option>
-            <option>16 - Alger</option>
-            <option>17 - Djelfa</option>
-            <option>18 - Jijel</option>
-            <option>19 - Sétif</option>
-            <option>20 - Saïda</option>
-            <option>21 - Skikda</option>
-            <option>22 - Sidi Bel Abbès</option>
-            <option>23 - Annaba</option>
-            <option>24 - Guelma</option>
-            <option>25 - Constantine</option>
-            <option>26 - Médéa</option>
-            <option>27 - Mostaganem</option>
-            <option>28 - M'Sila</option>
-            <option>29 - Mascara</option>
-            <option>30 - Ouargla</option>
-            <option>31 - Oran</option>
-            <option>32 - El Bayadh</option>
-            <option>33 - Illizi</option>
-            <option>34 - Bordj Bou Arréridj</option>
-            <option>35 - Boumerdès</option>
-            <option>36 - El Tarf</option>
-            <option>37 - Tindouf</option>
-            <option>38 - Tissemsilt</option>
-            <option>39 - El Oued</option>
-            <option>40 - Khenchela</option>
-            <option>41 - Souk Ahras</option>
-            <option>42 - Tipaza</option>
-            <option>43 - Mila</option>
-            <option>44 - Aïn Defla</option>
-            <option>45 - Naâma</option>
-            <option>46 - Aïn Témouchent</option>
-            <option>47 - Ghardaïa</option>
-            <option>48 - Relizane</option>
-            <option>49 - Timimoun</option>
-            <option>50 - Bordj Badji Mokhtar</option>
-            <option>51 - Ouled Djellal</option>
-            <option>52 - Béni Abbès</option>
-            <option>53 - In Salah</option>
-            <option>54 - In Guezzam</option>
-            <option>55 - Touggourt</option>
-            <option>56 - Djanet</option>
-            <option>57 - El M'Ghair</option>
-            <option>58 - El Meniaa</option>
-        </select>
+        <input type="text" id="loginPhone" placeholder="Phone number">
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <div class="remember">
+            <input type="checkbox" id="remember"> Remember me
+        </div>
+
+        <button onclick="login()">Login</button>
+
+        <div class="switch" onclick="showSignup()">Create account</div>
     </div>
-</div>
 
-<div class="grid">
-    <div class="card c1" onclick="goToProduct('Crémerie 1')">Crémerie 1</div>
-    <div class="card c2" onclick="goToProduct('Crémerie 2')">Crémerie 2</div>
-    <div class="card c3" onclick="goToProduct('Crémerie 3')">Crémerie 3</div>
+    <div id="signup" class="hidden">
+        <h2>Sign Up</h2>
 
-    <div class="card c4" onclick="goToProduct('Crémerie 4')">Crémerie 4</div>
-    <div class="card c5" onclick="goToProduct('Crémerie 5')">Crémerie 5</div>
-    <div class="card c6" onclick="goToProduct('Crémerie 6')">Crémerie 6</div>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="text" id="phone" placeholder="Phone number">
+        <input type="password" id="password" placeholder="Password">
 
-    <div class="card c7" onclick="goToProduct('Crémerie 7')">Crémerie 7</div>
-    <div class="card c8" onclick="goToProduct('Crémerie 8')">Crémerie 8</div>
-    <div class="card c9" onclick="goToProduct('Crémerie 9')">Crémerie 9</div>
-</div>
+        <button onclick="signup()">Sign Up</button>
 
-<div class="footer">
-    <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
-    <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
-    <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
+        <div class="switch" onclick="showLogin()">Already have account?</div>
+    </div>
+
 </div>
 
 <script>
-/* ✅ NEW: REDIRECT TO PRODUCT PAGE */
-function goToProduct(name) {
-    localStorage.setItem("selectedEntreprise", name);
-    window.location.href = "product_index.html";
+function showSignup() {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("signup").classList.remove("hidden");
 }
 
-function toggleWilaya() {
-    const select = document.getElementById("wilayaSelect");
-    select.style.display = select.style.display === "block" ? "none" : "block";
+function showLogin() {
+    document.getElementById("signup").classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
 }
 
-function selectWilaya() {
-    const value = document.getElementById("wilayaSelect").value;
-    localStorage.setItem("wilaya", value);
-    console.log("Wilaya saved:", value);
-}
+// Save users in localStorage (simple demo)
+function signup() {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
 
-function chooseWilaya() {
-    const wilaya = prompt("Enter Wilaya (or leave empty for all):");
-    if (wilaya) {
-        alert("Selected: " + wilaya);
-    } else {
-        alert("All Wilayas");
+    if (!name || !phone || !password) {
+        alert("Fill all fields");
+        return;
     }
+
+    const user = { name, phone, password };
+    localStorage.setItem(phone, JSON.stringify(user));
+
+    alert("Account created!");
+    showLogin();
 }
 
-function goHome() {
-    // ✅ Redirect to the correct category home page
+function login() {
+    const phone = document.getElementById("loginPhone").value;
+    const password = document.getElementById("loginPassword").value;
+    const remember = document.getElementById("remember").checked;
+
+    const user = JSON.parse(localStorage.getItem(phone));
+
+    if (!user || user.password !== password) {
+        alert("Invalid login");
+        return;
+    }
+
+    if (remember) {
+        localStorage.setItem("savedUser", phone);
+    }
+
+    // ✅ ADDED RELATION
+    localStorage.setItem("token", "logged_in");
+    alert("Welcome " + user.name);
     window.location.href = "category index.html";
 }
 
-function openCart() {
-    // ✅ Redirect to the cart page
-    window.location.href = "cart_index.html";
-}
-
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
-}
-
+// Auto login if saved
 window.onload = function() {
-    // ✅ Security check: Redirect to login if not logged in
-    if (!localStorage.getItem("token")) {
-        window.location.href = "index.html";
-    }
-
-    const saved = localStorage.getItem("wilaya");
-    if (saved !== null) {
-        document.getElementById("wilayaSelect").value = saved;
+    const saved = localStorage.getItem("savedUser");
+    if (saved) {
+        document.getElementById("loginPhone").value = saved;
     }
 };
 </script>
