@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body { margin:0; font-family:Arial; }
-.item { padding:10px; margin:10px; border:1px solid #ddd; display:flex; justify-content:space-between; }
-button { background:#ff9800; color:#fff; border:none; padding:5px 10px; }
+body{font-family:Arial;margin:0;}
+.item{display:flex;justify-content:space-between;padding:10px;margin:10px;border:1px solid #ddd;}
+button{background:#ff9800;color:#fff;border:none;padding:5px 10px;}
 </style>
 </head>
 
@@ -17,47 +17,32 @@ button { background:#ff9800; color:#fff; border:none; padding:5px 10px; }
 
 <h3 id="shopTitle"></h3>
 
-<div id="list">
-
-<div class="item">
-    <span>Lait</span>
-    <button onclick="addToCart('Lait', 50)">Add</button>
-</div>
-
-<div class="item">
-    <span>Yaourt</span>
-    <button onclick="addToCart('Yaourt', 60)">Add</button>
-</div>
-
-<div class="item">
-    <span>Fromage</span>
-    <button onclick="addToCart('Fromage', 100)">Add</button>
-</div>
-
-</div>
+<div class="item">Sucre <button onclick="addToCart('Sucre',20)">+</button></div>
+<div class="item">Sel <button onclick="addToCart('Sel',10)">+</button></div>
+<div class="item">Lait <button onclick="addToCart('Lait',50)">+</button></div>
+<div class="item">Yaourt <button onclick="addToCart('Yaourt',60)">+</button></div>
+<div class="item">Fromage <button onclick="addToCart('Fromage',100)">+</button></div>
 
 <script>
-
-const shop = localStorage.getItem("shop");
-document.getElementById("shopTitle").innerText = shop;
+const shop=localStorage.getItem("shop");
+document.getElementById("shopTitle").innerText=shop;
 
 /* ADD TO CART */
-function addToCart(name, price) {
+function addToCart(name,price){
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
     cart.push({
-        name: name,
-        price: price,
-        qty: 1,
-        shop: shop
+        name:name,
+        price:price,
+        qty:1,
+        shop:shop
     });
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart",JSON.stringify(cart));
 
-    alert(name + " added to cart");
+    alert(name+" added 🛒");
 }
-
 </script>
 
 </body>
