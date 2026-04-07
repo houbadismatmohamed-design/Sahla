@@ -8,131 +8,36 @@
 <meta name="theme-color" content="#ff9800">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #fff;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #000;
-}
-
-.wilaya-btn {
-    padding: 8px 12px;
-    border: none;
-    background: #ff9800;
-    color: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.wilaya-select {
-    display: none;
-    margin-left: 10px;
-    padding: 6px;
-    border-radius: 6px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 15px;
-    padding-bottom: 80px;
-}
-
-.card {
-    height: 90px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-}
-
-.c1 { background: #ff9800; }
-.c2 { background: #000; }
-.c3 { background: #f57c00; }
-.c4 { background: #ffb74d; color:#000;}
-.c5 { background: #212121; }
-.c6 { background: #ffa726; color:#000;}
-.c7 { background: #fb8c00; }
-.c8 { background: #424242; }
-.c9 { background: #ffcc80; color:#000; }
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.nav-btn {
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-    color: #000;
-}
+body { margin:0; font-family:Arial; background:#fff; }
+.header { display:flex; justify-content:space-between; padding:15px; font-weight:bold; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:15px; }
+.card { height:90px; border-radius:12px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer; }
+.c1{background:#ff9800;} .c2{background:#000;} .c3{background:#f57c00;}
+.footer { position:fixed; bottom:0; width:100%; display:flex; justify-content:space-around; }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <span>Choisire votre crémerie</span>
-
-    <div>
-        <button class="wilaya-btn" onclick="toggleWilaya()">Wilaya</button>
-
-        <select id="wilayaSelect" class="wilaya-select" onchange="selectWilaya()">
-            <option value="">All Wilayas</option>
-            <option>31 - Oran</option>
-        </select>
-    </div>
-</div>
+<div class="header">Choisire votre crémerie</div>
 
 <div class="grid" id="grid">
 
-    <div class="card c1" onclick="goProduct()">Crémerie 1</div>
-    <div class="card c2" onclick="goProduct()">Crémerie 2</div>
-    <div class="card c3" onclick="goProduct()">Crémerie 3</div>
-
-    <div class="card c4" onclick="goProduct()">Crémerie 4</div>
-    <div class="card c5" onclick="goProduct()">Crémerie 5</div>
-    <div class="card c6" onclick="goProduct()">Crémerie 6</div>
+    <div class="card c1" onclick="selectShop('Cremerie 1')">Crémerie 1</div>
+    <div class="card c2" onclick="selectShop('Cremerie 2')">Crémerie 2</div>
+    <div class="card c3" onclick="selectShop('Cremerie 3')">Crémerie 3</div>
 
 </div>
 
 <div class="footer">
-    <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
-    <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
-    <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
+    <div onclick="goHome()">🏠</div>
+    <div onclick="openCart()">🛒</div>
 </div>
 
 <script>
-function toggleWilaya() {
-    const select = document.getElementById("wilayaSelect");
-    select.style.display = select.style.display === "block" ? "none" : "block";
-}
-
-function selectWilaya() {
-    const value = document.getElementById("wilayaSelect").value;
-    localStorage.setItem("wilaya", value);
+function selectShop(shop) {
+    localStorage.setItem("shop", shop);
+    window.location.href = "product_index.html";
 }
 
 function goHome() {
@@ -143,28 +48,13 @@ function openCart() {
     window.location.href = "cart_index.html";
 }
 
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
-}
-
-function goProduct() {
-    window.location.href = "product_index.html";
-}
-
 window.onload = function() {
-
-    const saved = localStorage.getItem("wilaya");
-    if (saved !== null) {
-        document.getElementById("wilayaSelect").value = saved;
-    }
-
     const category = localStorage.getItem("category");
 
     if (category !== "drinks") {
         document.getElementById("grid").innerHTML = `
-            <div style="grid-column: span 3; text-align:center; padding:20px;">
-                This category does not have crémeries yet 🚫
+            <div style="grid-column: span 3; text-align:center;">
+                No shops for this category 🚫
             </div>
         `;
     }
