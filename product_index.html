@@ -7,15 +7,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:Arial;margin:0;}
-.item{display:flex;justify-content:space-between;padding:10px;margin:10px;border:1px solid #ddd;}
-button{background:#ff9800;color:#fff;border:none;padding:5px 10px;}
+body { font-family:Arial; margin:0; }
+
+/* HEADER */
+.header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    font-weight:bold;
+}
+
+/* BUTTONS */
+.top-btn {
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* PRODUCTS */
+.item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    margin:10px;
+    border-radius:10px;
+    background:#f5f5f5;
+}
+
+/* ADD BUTTON */
+button {
+    background:#ff9800;
+    color:#fff;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-size:16px;
+}
 </style>
 </head>
 
 <body>
 
-<h3 id="shopTitle"></h3>
+<div class="header">
+    <span class="top-btn" onclick="goBack()">⬅</span>
+    <span id="shopTitle"></span>
+    <span class="top-btn" onclick="logout()">🚪</span>
+</div>
 
 <div class="item">Sucre <button onclick="addToCart('Sucre',20)">+</button></div>
 <div class="item">Sel <button onclick="addToCart('Sel',10)">+</button></div>
@@ -24,24 +62,30 @@ button{background:#ff9800;color:#fff;border:none;padding:5px 10px;}
 <div class="item">Fromage <button onclick="addToCart('Fromage',100)">+</button></div>
 
 <script>
-const shop=localStorage.getItem("shop");
-document.getElementById("shopTitle").innerText=shop;
+const shop = localStorage.getItem("shop");
+document.getElementById("shopTitle").innerText = shop;
 
-/* ADD TO CART */
-function addToCart(name,price){
+/* ADD TO CART (MERGE) */
+function addToCart(name, price){
 
-    let cart=JSON.parse(localStorage.getItem("cart"))||[];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    cart.push({
-        name:name,
-        price:price,
-        qty:1,
-        shop:shop
-    });
+    let existing = cart.find(p => p.name === name && p.shop === shop);
 
-    localStorage.setItem("cart",JSON.stringify(cart));
+    if(existing){
+        existing.qty += 1;
+    } else {
+        cart.push({name, price, qty:1, shop});
+    }
 
-    alert(name+" added 🛒");
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* NAV */
+function goBack(){ window.location.href="entreprise index.html"; }
+function logout(){
+    localStorage.removeItem("token");
+    window.location.href="index.html";
 }
 </script>
 
