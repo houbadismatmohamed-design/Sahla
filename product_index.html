@@ -2,236 +2,62 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Product_index</title>
+<title>Products</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ff9800">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #fff;
-}
-
-/* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* RIGHT ACTIONS */
-.actions {
-    display: flex;
-    gap: 5px;
-}
-
-/* BUTTONS */
-.btn {
-    padding: 6px 8px;
-    border: none;
-    background: #ff9800;
-    color: white;
-    border-radius: 6px;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-/* SEARCH ICON */
-.search-icon {
-    font-size: 18px;
-    cursor: pointer;
-}
-
-/* SEARCH INPUT */
-.search-box {
-    display: none;
-    padding: 10px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-/* PRODUCT LIST */
-.list {
-    padding: 10px;
-    padding-bottom: 80px;
-}
-
-.item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-/* IMAGE */
-.img {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    background: #eee;
-}
-
-/* TEXT */
-.text {
-    flex: 1;
-}
-
-.title {
-    font-weight: bold;
-}
-
-.subtitle {
-    font-size: 12px;
-    color: gray;
-}
-
-/* FOOTER */
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.nav-btn {
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-}
+body { margin:0; font-family:Arial; }
+.item { padding:10px; margin:10px; border:1px solid #ddd; display:flex; justify-content:space-between; }
+button { background:#ff9800; color:#fff; border:none; padding:5px 10px; }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <span>Choisire votre produit</span>
+<h3 id="shopTitle"></h3>
 
-    <div class="actions">
-        <button class="btn" onclick="filter()">Filtrez</button>
-        <button class="btn" onclick="sort()">Triez</button>
-        <span class="search-icon" onclick="toggleSearch()">🔍</span>
-    </div>
+<div id="list">
+
+<div class="item">
+    <span>Lait</span>
+    <button onclick="addToCart('Lait', 50)">Add</button>
 </div>
 
-<div class="search-box" id="searchBox">
-    <input type="text" id="searchInput" placeholder="Search product..." onkeyup="searchProduct()">
+<div class="item">
+    <span>Yaourt</span>
+    <button onclick="addToCart('Yaourt', 60)">Add</button>
 </div>
 
-<div class="list" id="productList">
-
-    <div class="item" data-name="sucre">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Sucre</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="sel">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Sel</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="lait">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Lait</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="yaourt">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Yaourt</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
-    <div class="item" data-name="fromage">
-        <div class="img"></div>
-        <div class="text">
-            <div class="title">Fromage</div>
-            <div class="subtitle">Disponible</div>
-        </div>
-    </div>
-
+<div class="item">
+    <span>Fromage</span>
+    <button onclick="addToCart('Fromage', 100)">Add</button>
 </div>
 
-<div class="footer">
-    <div class="nav-btn" onclick="goHome()">🏠<br>Home</div>
-    <div class="nav-btn" onclick="openCart()">🛒<br>Cart</div>
-    <div class="nav-btn" onclick="logout()">🚪<br>Logout</div>
 </div>
 
 <script>
 
-/* TOGGLE SEARCH */
-function toggleSearch() {
-    const box = document.getElementById("searchBox");
-    box.style.display = box.style.display === "block" ? "none" : "block";
-}
+const shop = localStorage.getItem("shop");
+document.getElementById("shopTitle").innerText = shop;
 
-/* LIVE SEARCH (LETTER BY LETTER) */
-function searchProduct() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const items = document.querySelectorAll(".item");
+/* ADD TO CART */
+function addToCart(name, price) {
 
-    items.forEach(item => {
-        const name = item.getAttribute("data-name");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        if (name.startsWith(input)) {
-            item.style.display = "flex";
-        } else {
-            item.style.display = "none";
-        }
+    cart.push({
+        name: name,
+        price: price,
+        qty: 1,
+        shop: shop
     });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(name + " added to cart");
 }
 
-/* FILTER */
-function filter() {
-    alert("Filter not implemented yet");
-}
-
-/* SORT */
-function sort() {
-    alert("Sort not implemented yet");
-}
-
-function goHome() {
-    window.location.href = "category index.html";
-}
-
-function openCart() {
-    // ✅ ADDED RELATION
-    window.location.href = "cart_index.html";
-}
-
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
-}
 </script>
 
 </body>
