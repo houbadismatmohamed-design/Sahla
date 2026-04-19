@@ -1,164 +1,300 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>E-Market Auth</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA Premium</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .container {
-        width: 320px;
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-        text-align: center;
-        color: #000;
-    }
-
-    input {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        background: #ff9800;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background: #e68900;
-    }
-
-    .switch {
-        text-align: center;
-        margin-top: 10px;
-        color: #000;
-        cursor: pointer;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .remember {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-    }
-
+.bg-aura{background:#0A192F;}
+.gold{color:#D4AF37;}
+.card-aura{
+background:linear-gradient(145deg,#0A192F,#112240);
+border:1px solid rgba(212,175,55,0.4);
+}
+.img-gold{
+border:2px solid #D4AF37;
+box-shadow:0 0 10px rgba(212,175,55,0.4);
+}
 </style>
 </head>
-<body>
 
-<div class="container">
+<body class="bg-gray-100 font-sans">
 
-    <div id="login">
-        <h2>Login</h2>
+<header class="bg-aura text-white p-4 flex justify-between items-center shadow-lg">
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-black gold cursor-pointer" onclick="goHome()">AURA</h1>
+</div>
 
-        <input type="text" id="loginPhone" placeholder="Phone number">
-        <input type="password" id="loginPassword" placeholder="Password">
+<div onclick="toggleCart()" class="cursor-pointer relative">
+<i class="fa-solid fa-cart-shopping text-xl"></i>
+<span id="cart-count" class="hidden absolute -top-2 -right-2 bg-yellow-400 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+</div>
+</header>
 
-        <div class="remember">
-            <input type="checkbox" id="remember"> Remember me
-        </div>
+<main class="p-4 max-w-5xl mx-auto">
 
-        <button onclick="login()">Login</button>
+<div class="rounded-2xl overflow-hidden relative h-44 mb-6 shadow-xl">
+<img src="https://images.unsplash.com/photo-1563720223185-11003d516935?w=1200"
+class="absolute w-full h-full object-cover">
+<div class="absolute inset-0 bg-gradient-to-r from-[#0A192F] via-[#0A192F]/80 to-transparent"></div>
+</div>
 
-        <div class="switch" onclick="showSignup()">Create account</div>
-    </div>
+<div id="backBtn" class="hidden mb-4 text-sm font-bold cursor-pointer text-blue-700" onclick="goBack()">← Retour</div>
 
-    <div id="signup" class="hidden">
-        <h2>Sign Up</h2>
+<div id="view"></div>
 
-        <input type="text" id="name" placeholder="Full Name">
-        <input type="text" id="phone" placeholder="Phone number">
-        <input type="password" id="password" placeholder="Password">
+</main>
 
-        <button onclick="signup()">Sign Up</button>
+<!-- CART -->
+<div id="cart" class="hidden fixed right-0 top-0 w-80 h-full bg-white shadow-2xl flex flex-col z-50">
 
-        <div class="switch" onclick="showLogin()">Already have account?</div>
-    </div>
+<div class="p-4 bg-aura text-white flex justify-between">
+<span>Panier</span>
+<button onclick="toggleCart()">X</button>
+</div>
+
+<div id="cart-items" class="flex-1 p-4 space-y-3"></div>
+
+<div class="p-4 border-t">
+<p class="font-bold">Total: <span id="cart-total">0</span> DA</p>
+<button onclick="checkout()" class="w-full bg-green-600 text-white py-3 mt-2 rounded">
+Confirmer commande
+</button>
+</div>
 
 </div>
 
 <script>
-function showSignup() {
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("signup").classList.remove("hidden");
+
+/* NAV */
+let historyStack=[];
+function goBack(){
+historyStack.pop();
+let last=historyStack.pop();
+if(last) last();
 }
 
-function showLogin() {
-    document.getElementById("signup").classList.add("hidden");
-    document.getElementById("login").classList.remove("hidden");
-}
-
-// Save users in localStorage (simple demo)
-function signup() {
-    const name = document.getElementById("name").value;
-    const phone = document.getElementById("phone").value;
-    const password = document.getElementById("password").value;
-
-    if (!name || !phone || !password) {
-        alert("Fill all fields");
-        return;
-    }
-
-    const user = { name, phone, password };
-    localStorage.setItem(phone, JSON.stringify(user));
-
-    alert("Account created!");
-    showLogin();
-}
-
-function login() {
-    const phone = document.getElementById("loginPhone").value;
-    const password = document.getElementById("loginPassword").value;
-    const remember = document.getElementById("remember").checked;
-
-    const user = JSON.parse(localStorage.getItem(phone));
-
-    if (!user || user.password !== password) {
-        alert("Invalid login");
-        return;
-    }
-
-    if (remember) {
-        localStorage.setItem("savedUser", phone);
-    }
-
-    // ✅ ADDED RELATION
-    localStorage.setItem("token", "logged_in");
-    alert("Welcome " + user.name);
-    window.location.href = "category index.html";
-}
-
-// Auto login if saved
-window.onload = function() {
-    const saved = localStorage.getItem("savedUser");
-    if (saved) {
-        document.getElementById("loginPhone").value = saved;
-    }
+/* IMAGES */
+const categoryImages={
+"FOOD":"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300",
+"MOBILE TECH":"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300",
+"HOMME":"https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=300",
+"FEMME":"https://images.unsplash.com/photo-1539109132314-3477524c859c?w=300",
+"ENFANTS":"https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=300",
+"CUISINE":"https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=300",
+"ELECTROMENAGE":"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
+"VOITURE":"https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=300"
 };
+
+const foodImages={
+"PIZZERIA":"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300",
+"RESTAURANT":"https://images.unsplash.com/photo-1555992336-03a23c7b20ee?w=300",
+"CREMERIE ET GLACES":"https://images.unsplash.com/photo-1501443762994-82bd5dabb892?w=300",
+"CAFETERIA":"https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300"
+};
+
+const shopImages={
+"PIZZERIA":"https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=400"
+};
+
+const productImages={
+"Pizza Margherita":"https://images.unsplash.com/photo-1601924582975-7e6b7d6c6b8d?w=400",
+"Pizza Thon":"https://images.unsplash.com/photo-1548365328-8b849e5dd2c8?w=400"
+};
+
+/* DATA */
+const categories=["FOOD","MOBILE TECH","HOMME","FEMME","ENFANTS","CUISINE","ELECTROMENAGE","VOITURE"];
+const foodSubs=["PIZZERIA","RESTAURANT","CREMERIE ET GLACES","CAFETERIA"];
+
+const shops=[
+{
+id:1,
+name:"Pizza Milano",
+type:"PIZZERIA",
+distance:1,
+products:[
+{name:"Pizza Margherita",price:800},
+{name:"Pizza Thon",price:900}
+]
+}
+];
+
+let cart=[];
+let currentShop=null;
+let quantities={};
+
+/* HOME */
+function goHome(){
+document.getElementById("backBtn").classList.add("hidden");
+let html=`<div class="grid grid-cols-2 md:grid-cols-4 gap-4">`;
+
+categories.forEach(c=>{
+html+=`
+<div onclick="openCategory('${c}')"
+class="card-aura text-white p-3 rounded-2xl cursor-pointer">
+<img src="${categoryImages[c]}" class="w-full h-20 object-cover rounded-xl img-gold mb-2">
+<p class="text-center text-xs font-bold">${c}</p>
+</div>`;
+});
+
+html+=`</div>`;
+document.getElementById("view").innerHTML=html;
+historyStack.push(goHome);
+}
+
+/* CATEGORY */
+function openCategory(cat){
+historyStack.push(()=>openCategory(cat));
+document.getElementById("backBtn").classList.remove("hidden");
+
+if(cat==="FOOD"){
+let html=`<div class="grid grid-cols-2 gap-4">`;
+foodSubs.forEach(s=>{
+html+=`
+<div onclick="openSub('${s}')"
+class="card-aura text-white p-3 rounded-2xl cursor-pointer">
+<img src="${foodImages[s]}" class="w-full h-20 object-cover rounded-xl img-gold mb-2">
+<p class="text-center text-xs font-bold">${s}</p>
+</div>`;
+});
+html+=`</div>`;
+document.getElementById("view").innerHTML=html;
+}
+}
+
+/* SUB */
+function openSub(sub){
+historyStack.push(()=>openSub(sub));
+let html=`<h2 class="font-bold mb-4">${sub}</h2>`;
+
+shops.filter(s=>s.type===sub).forEach(s=>{
+html+=`
+<div onclick="openShop(${s.id})" class="card-aura text-white p-3 mb-3">
+<img src="${shopImages[sub]}" class="w-full h-28 object-cover rounded-xl img-gold mb-2">
+<p>${s.name}</p>
+</div>`;
+});
+
+document.getElementById("view").innerHTML=html;
+}
+
+/* SHOP */
+function openShop(id){
+historyStack.push(()=>openShop(id));
+currentShop=shops.find(s=>s.id===id);
+
+let html=`<h2 class="font-bold mb-4">${currentShop.name}</h2>`;
+
+currentShop.products.forEach((p,i)=>{
+quantities[i]=1;
+
+html+=`
+<div class="bg-white p-3 mb-3 rounded-xl">
+<img src="${productImages[p.name]}" class="w-full h-28 object-cover rounded-xl mb-2">
+<p>${p.name}</p>
+<p id="price-${i}">${p.price} DA</p>
+
+<div class="flex gap-2 mt-2">
+<button onclick="changeQty(${i},-1)">-</button>
+<span id="qty-${i}">1</span>
+<button onclick="changeQty(${i},1)">+</button>
+</div>
+
+<button onclick="addToCart(${i})"
+class="bg-aura text-white px-3 py-1 rounded mt-2">
+Ajouter
+</button>
+
+</div>`;
+});
+
+document.getElementById("view").innerHTML=html;
+}
+
+/* QUANTITY */
+function changeQty(i,d){
+quantities[i]+=d;
+if(quantities[i]<1) quantities[i]=1;
+
+document.getElementById(`qty-${i}`).innerText=quantities[i];
+
+let price=currentShop.products[i].price * quantities[i];
+document.getElementById(`price-${i}`).innerText=price+" DA";
+}
+
+/* CART */
+function addToCart(i){
+let p=currentShop.products[i];
+let qty=quantities[i];
+
+cart.push({name:p.name,price:p.price,qty:qty});
+updateCart();
+}
+
+/* 🔥 CART UI WITH +/- + DELETE */
+function updateCart(){
+let total=0;
+let html="";
+
+cart.forEach((item,index)=>{
+total+=item.price * item.qty;
+
+html+=`
+<div class="border-b pb-2">
+
+<p>${item.name}</p>
+
+<div class="flex items-center gap-2">
+<button onclick="cartQty(${index},-1)">-</button>
+<span>${item.qty}</span>
+<button onclick="cartQty(${index},1)">+</button>
+</div>
+
+<p>${item.price * item.qty} DA</p>
+
+<button onclick="removeItem(${index})" class="text-red-500 text-xs">
+Supprimer
+</button>
+
+</div>`;
+});
+
+document.getElementById("cart-items").innerHTML=html;
+document.getElementById("cart-total").innerText=total;
+document.getElementById("cart-count").innerText=cart.length;
+document.getElementById("cart-count").classList.remove("hidden");
+}
+
+/* CART CHANGE */
+function cartQty(i,d){
+cart[i].qty+=d;
+if(cart[i].qty<1) cart[i].qty=1;
+updateCart();
+}
+
+/* DELETE CONFIRM */
+function removeItem(i){
+if(confirm("Supprimer cet article ?")){
+cart.splice(i,1);
+updateCart();
+}
+}
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("hidden");
+}
+
+function checkout(){
+alert("Commande confirmée !");
+}
+
+/* INIT */
+goHome();
+
 </script>
 
 </body>
